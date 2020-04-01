@@ -27,18 +27,18 @@ public class User {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "USER_SEQ", nullable = false)
-	long userSeq;
+	private long userSeq;
 	
 	@Column(name = "ID", nullable = false, length = 50)
-	String id;
+	private String id;
 	
 	@Column(name = "PASSWORD", nullable = false, length = 100)
-	String password;
+	private String password;
 	
 	@Column(name = "NAME", nullable = false, length = 20)
-	String name;
+	private String name;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "REG_DATE", nullable = false)
-	Date regDate;
+	private Date regDate;
 }
