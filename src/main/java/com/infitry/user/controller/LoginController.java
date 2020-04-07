@@ -1,5 +1,8 @@
 package com.infitry.user.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +40,10 @@ public class LoginController {
 	 * @description : 로그인 처리
 	 */
 	@RequestMapping(value="/login" , method = RequestMethod.POST)
-	TransResult login(@RequestBody User user) {
+	TransResult login(@RequestBody User user, HttpSession session, HttpServletRequest request) {
 		TransResult result = new TransResult(true);
+		
+		logger.info("user session Id : " + session.getId());
 		
 		User loginUser = userComponent.getUserById(user.getId());
 		if (loginUser == null) {
@@ -52,8 +57,6 @@ public class LoginController {
 			result.setErrorMessage("비밀번호가 다릅니다.");
 			result.setSuccess(false);
 		}
-		//TODO redis를  활용해 캐쉬추가 로그인 처리 추가할 것
-		logger.info(result.toString());
 		
 		return result;
 	}
@@ -67,7 +70,6 @@ public class LoginController {
 	TransResult logout(@RequestBody User user){
 		TransResult result = new TransResult(true);
 		
-		//TODO redis에서 캐쉬삭제해서  로그아웃 처리 추가할 것
 		User findUser = userComponent.getUserById(user.getId());
 		if (findUser == null) {
 			logger.error("로그아웃 유저가 존재하지 않습니다.");
